@@ -10,7 +10,7 @@
 </head>
 <body>
 <div th:replace="~{navigation :: navi('Home')}"></div>
-Типа главная страница, отсюда авторизация
+Типа главная страница, откуда происходит авторизация
 <button th:if="${#authorization.expression('isAnonymous()')}" type="button" class="btn btn-primary btn-lg"
         data-toggle="modal" data-target="#loginRegisterModal">Войти
 </button>
