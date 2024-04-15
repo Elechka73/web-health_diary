@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<!--    <link rel="icon" type="image/png" th:href="@{/icon.ico}"/> найти иконку и закинуть в папку static-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{navigation :: navi('Home')}"></div>
+Типа главная страница, отсюда авторизация
+<button th:if="${#authorization.expression('isAnonymous()')}" type="button" class="btn btn-primary btn-lg"
+        data-toggle="modal" data-target="#loginRegisterModal">Войти
+</button>
+<div class="modal fade" id="loginRegisterModal" tabindex="-1" role="dialog" aria-labelledby="loginRegisterModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+<!--            <div class="modal-header">-->
+<!--                <ul class="nav" id="loginRegisterTabs" role="tablist">-->
+<!--                    <li class="nav-item">-->
+<!--                        <p id="loginL">Вход</p>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+            <div class="modal-body">
+                <div class="tab-content" id="loginRegisterTabsContent">
+                    <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                        <form class="align-middle" th:action="@{/auth}" method="POST">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Логин" name="username"
+                                       aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" placeholder="Пароль" name="password"
+                                       aria-describedby="inputGroup-sizing-sm">
+                            </div>
+                            <button class="btn btn-primary btn-block" type="submit">Войти</button>
+                        </form>
+                        <div th:if="${param.error} != null" class="text-danger mt-2">
+                            Неправильное имя пользователя или пароль.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

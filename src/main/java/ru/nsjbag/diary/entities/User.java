@@ -15,6 +15,7 @@ public class User {
     private String password;
 
     private String firstname;
+    private Boolean enabled;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Authority authority;
