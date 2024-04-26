@@ -2,7 +2,9 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<style>
+    body{background-image: url(https://catherineasquithgallery.com/uploads/posts/2023-02/1676557779_catherineasquithgallery-com-p-belo-zelenii-fon-dlya-prezentatsii-192.jpg)}
+</style>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
@@ -16,9 +18,7 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="fluid-container" th:fragment="navi(activeTab)">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark badge-dark ">
         <a class="navbar-brand" th:href="@{/}">Дневник здоровья</a>
@@ -55,5 +55,6 @@
     </nav>
     <div class="visible-md" style="height:80px;"></div>
 </div>
+
 </body>
 </html>

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    body{background-image: url(https://catherineasquithgallery.com/uploads/posts/2023-02/1676557779_catherineasquithgallery-com-p-belo-zelenii-fon-dlya-prezentatsii-192.jpg)}
+</style>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,9 +11,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body style="text-align: center">
 <div th:replace="~{navigation :: navi('Home')}"></div>
-Типа главная страница, откуда происходит авторизация
+<h2 >Добро пожаловать в приложение здорового образа жизни! <br>Пожалуйста, войдите в свою учётную запись.
+</h2>
 <button th:if="${#authorization.expression('isAnonymous()')}" type="button" class="btn btn-primary btn-lg"
         data-toggle="modal" data-target="#loginRegisterModal">Войти
 </button>
