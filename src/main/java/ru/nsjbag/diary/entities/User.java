@@ -21,7 +21,7 @@ public class User {
     private String lastname;
     private String patronymic;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
     private String insuranceNumber;

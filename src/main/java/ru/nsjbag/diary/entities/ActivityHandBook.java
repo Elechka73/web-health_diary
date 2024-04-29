@@ -16,5 +16,4 @@ public class ActivityHandBook {
 
     private float caloriesPerMinute;
 
-
 }

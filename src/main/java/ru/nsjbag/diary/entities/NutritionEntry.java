@@ -10,18 +10,22 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "pressure")
-public class BloodPressureEntry {
+@Table(name = "entrynutr")
+public class NutritionEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int systolic;
-    private int diastolic;
+    private float dishWeight;
+    private float calories;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
-    private LocalDateTime dateOfEntry;
+    private LocalDateTime timeOfNutrition;
+
+    @ManyToOne
+    @JoinColumn(name = "dish_id")
+    private DIshHandBook dish;
 
     @ManyToOne
     @JoinColumn(name = "diary_id")
