@@ -1,31 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-  body{background-image: url(https://catherineasquithgallery.com/uploads/posts/2023-02/1676557779_catherineasquithgallery-com-p-belo-zelenii-fon-dlya-prezentatsii-192.jpg)}
-</style>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            background-image: url(https://catherineasquithgallery.com/uploads/posts/2023-02/1676557779_catherineasquithgallery-com-p-belo-zelenii-fon-dlya-prezentatsii-192.jpg)
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+
+    <!--    <link rel="icon" type="image/png" th:href="@{/icon.ico}"/> найти иконку и закинуть в папку static-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
 <table>
-    <tr><th>Показатели давления</th><th>Время измерения</th><th>Дата измерения</th><th></th><th></th>
+    <thead>
+    <tr>
+        <th>Показатели давления</th>
+        <th>Время измерения</th>
+        <th>Дата измерения</th>
+        <th>Действие</th>
     </tr>
-    <td>
+    </thead>
+    <tbody>
+    <tr th:each="entry : ${entries}">
+        <td th:text="${entry.systolic} + ' / ' + ${entry.diastolic}"></td>
+        <td th:text="${#temporals.format(entry.dateOfEntry, 'HH:mm')}"></td>
+        <td th:text="${#temporals.format(entry.dateOfEntry, 'dd-MM-yyyy')}"></td>
 
-    </td>
-    <td>
 
-    </td>
-    <td>
-
-    </td>
-    <td>
-
-    </td>
-    <td>
-
-    </td>
+        <td>
+            <a th:href="@{'/user/pressure/delete/' + ${entry.id}}" th:text="Удалить" class="text-danger"></a>
+        </td>
+    </tr>
+    </tbody>
 </table>
+
+<!-- Кнопка "Добавить запись" -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPressureModal">
+    Добавить запись
+</button>
+
+<!-- Модальное окно для добавления записи -->
+<div class="modal fade" id="addPressureModal" tabindex="-1" role="dialog" aria-labelledby="addPressureModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPressureModalLabel">Добавить запись о давлении</h5>
+            </div>
+            <form id="addPressureForm" th:action="@{/user/pressure/add}" method="post" th:object="${entry}">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="systolic">Систолическое давление:</label>
+                    <input type="number" min="80" max="300" class="form-control" id="systolic" placeholder="Систолическое давление"  name="systolic" th:value="${entry.systolic}">
+                </div>
+                <div class="form-group">
+                    <label for="diastolic">Диастолическое давление:</label>
+                    <input type="number" min="40" max="200" class="form-control" id="diastolic" placeholder="Диастолическое давление" name="diastolic" th:value="${entry.diastolic}">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#addPressureForm').submit(function (event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: '/user/pressure/add',
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                    $('#addPressureModal').modal('hide');
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+
+
 </body>
 </html>
