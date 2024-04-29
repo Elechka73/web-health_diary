@@ -1,8 +1,11 @@
 package ru.nsjbag.diary.controllers;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.nsjbag.diary.entities.BloodPressureEntry;
@@ -10,10 +13,10 @@ import ru.nsjbag.diary.entities.User;
 import ru.nsjbag.diary.services.BloodPressureService;
 import ru.nsjbag.diary.services.UserService;
 
+
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+
 
 @Controller
 public class UserController {
@@ -25,11 +28,20 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user/pressure")
-    public String userPressure(Principal principal, Model model) {
+    public String userPressure(@RequestParam(defaultValue = "0") int page,
+                               Principal principal,
+                               Model model) {
+        if (page < 0)  page = 0;
 
-        List<BloodPressureEntry> bloodPressureEntryList = bloodPressureService.getBloodPressureByUsername(principal.getName());
-        model.addAttribute("entries", bloodPressureEntryList);
+        Pageable pageable = PageRequest.of(page, 15);
+
+        Page<BloodPressureEntry> bloodPressureEntries = bloodPressureService.getBloodPressure(principal.getName(), pageable);
+        model.addAttribute("entries", bloodPressureEntries.getContent());
         model.addAttribute("entry", new BloodPressureEntry());
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", bloodPressureEntries.getTotalPages());
+
         return "pressure";
     }
 

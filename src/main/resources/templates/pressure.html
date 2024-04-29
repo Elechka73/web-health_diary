@@ -37,14 +37,21 @@
         </td>
     </tr>
     </tbody>
-</table>
 
-<!-- Кнопка "Добавить запись" -->
+</table>
+<div th:if="${totalPages > 1}">
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" class="page-item" th:classappend="${pageNum == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{'/user/pressure?page=' + ${pageNum}}" th:text="${pageNum + 1}"></a>
+            </li>
+        </ul>
+    </nav>
+
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPressureModal">
     Добавить запись
 </button>
 
-<!-- Модальное окно для добавления записи -->
 <div class="modal fade" id="addPressureModal" tabindex="-1" role="dialog" aria-labelledby="addPressureModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
