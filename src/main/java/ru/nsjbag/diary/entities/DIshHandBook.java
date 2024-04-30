@@ -21,6 +21,6 @@ public class DIshHandBook {
 
     private float carbohydrates;
 
-    public float energyValue;
+    private float energyValue;
 
 }

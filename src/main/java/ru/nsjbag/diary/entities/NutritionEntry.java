@@ -19,6 +19,9 @@ public class NutritionEntry {
 
     private float dishWeight;
     private float calories;
+    private float fats;
+    private float proteins;
+    private float carbohydrates;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime timeOfNutrition;

@@ -2,7 +2,6 @@ package ru.nsjbag.diary.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.nsjbag.diary.entities.ActivityEntry;
 import ru.nsjbag.diary.entities.ActivityHandBook;
 import ru.nsjbag.diary.repositories.ActivityHandBookRepository;
 

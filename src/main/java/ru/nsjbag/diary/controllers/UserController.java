@@ -8,14 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.nsjbag.diary.entities.ActivityEntry;
-import ru.nsjbag.diary.entities.ActivityHandBook;
-import ru.nsjbag.diary.entities.BloodPressureEntry;
-import ru.nsjbag.diary.entities.User;
-import ru.nsjbag.diary.services.ActivityHandBookService;
-import ru.nsjbag.diary.services.ActivityService;
-import ru.nsjbag.diary.services.BloodPressureService;
-import ru.nsjbag.diary.services.UserService;
+import ru.nsjbag.diary.entities.*;
+import ru.nsjbag.diary.services.*;
 
 
 import java.security.Principal;
@@ -37,6 +31,12 @@ public class UserController {
 
     @Autowired
     private ActivityHandBookService activityHandBookService;
+
+    @Autowired
+    private NutritionService nutritionService;
+
+    @Autowired
+    private DishHandBookService dishHandBookService;
 
     @GetMapping("/user/pressure")
     public String userPressure(@RequestParam(defaultValue = "0") int page,
@@ -116,6 +116,49 @@ public class UserController {
         activityService.add(entry);
 
         return "redirect:/user/activity";
+    }
+    @GetMapping("/user/nutrition")
+    public String userNutrition(@RequestParam(defaultValue = "0") int page,
+                               Principal principal,
+                               Model model) {
+        if (page < 0)  page = 0;
+        Pageable pageable = PageRequest.of(page, 15);
+
+        Page<NutritionEntry> nutritionEntries = nutritionService.getAllNutritionEntries(principal.getName(), pageable);
+        model.addAttribute("entries", nutritionEntries.getContent());
+        model.addAttribute("entry", new NutritionEntry());
+        model.addAttribute("dish", new DIshHandBook());
+        model.addAttribute("dishes", dishHandBookService.getAllDish());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", nutritionEntries.getTotalPages());
+        return "nutrition";
+    }
+    @GetMapping("/user/nutrition/delete/{id}")
+    public String deleteNutritionEntry(@PathVariable(value = "id") int id,
+                                      @RequestHeader String referer) {
+        NutritionEntry entry = nutritionService.findById(id);
+        nutritionService.delete(entry);
+        return "redirect:" + referer;
+    }
+    @PostMapping("/user/nutrition/add")
+    public String addNutritionEntry(@RequestParam int dish,
+                                   @RequestParam String weight,
+                                   Principal principal) {
+        NutritionEntry entry = new NutritionEntry();
+        entry.setTimeOfNutrition(LocalDateTime.now());
+        float weightDish = Integer.parseInt(weight.split("\\.")[0]);
+        entry.setDishWeight(weightDish);
+        DIshHandBook dIshHandBookEntry = dishHandBookService.findById(dish);
+        entry.setDish(dIshHandBookEntry);
+        entry.setCalories((weightDish / 100) * dIshHandBookEntry.getEnergyValue());
+        entry.setProteins((weightDish / 100) * dIshHandBookEntry.getProteins());
+        entry.setFats((weightDish / 100) * dIshHandBookEntry.getFats());
+        entry.setCarbohydrates((weightDish / 100) * dIshHandBookEntry.getCarbohydrates());
+        User user = userService.getUserByUserName(principal.getName());
+        entry.setDiary(user.getHealthDiary());
+        nutritionService.add(entry);
+
+        return "redirect:/user/nutrition";
     }
 
 }
