@@ -9,5 +9,5 @@ import ru.nsjbag.diary.entities.BloodPressureEntry;
 
 @Repository
 public interface BloodPressureRepository extends JpaRepository<BloodPressureEntry, Integer> {
-    Page<BloodPressureEntry> findByDiary_User_Username(String username, Pageable pageable);
+    Page<BloodPressureEntry> findByDiary_User_Username_OrderByDateOfEntryDesc(String username, Pageable pageable);
 }

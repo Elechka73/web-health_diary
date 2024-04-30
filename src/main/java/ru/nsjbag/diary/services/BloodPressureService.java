@@ -15,7 +15,7 @@ public class BloodPressureService {
     private BloodPressureRepository repository;
 
     public Page<BloodPressureEntry> getBloodPressure(String username, Pageable pageable) {
-        return repository.findByDiary_User_Username(username, pageable);
+        return repository.findByDiary_User_Username_OrderByDateOfEntryDesc(username, pageable);
     }
     public void add(BloodPressureEntry entry) {
         repository.save(entry);

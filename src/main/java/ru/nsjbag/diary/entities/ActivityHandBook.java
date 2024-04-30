@@ -14,6 +14,7 @@ public class ActivityHandBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String activityName;
     private float caloriesPerMinute;
 
 }
