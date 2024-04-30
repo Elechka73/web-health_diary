@@ -35,6 +35,20 @@ CREATE TABLE diaries
 username varchar(30) NOT NULL REFERENCES users(username)
 );
 
-INSERT INTO diaries(id, username)
-VALUES
-(1, 'elvira');
+CREATE SEQUENCE dishes_id_seq;
+CREATE SEQUENCE activities_id_seq;
+
+CREATE TABLE dishes
+(id INTEGER PRIMARY KEY DEFAULT nextval('dishes_id_seq'),
+dish_name VARCHAR(255) NOT NULL,
+proteins real NOT NULL,
+fats real NOT NULL,
+carbohydrates real NOT NULL,
+energy_value real NOT NULL
+);
+
+CREATE TABLE activities
+(id INTEGER PRIMARY KEY DEFAULT nextval('activities_id_seq'),
+activity_name VARCHAR(255) NOT NULL,
+calories_per_minute real NOT NULL
+);
