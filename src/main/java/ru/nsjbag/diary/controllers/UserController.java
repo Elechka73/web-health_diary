@@ -13,6 +13,7 @@ import ru.nsjbag.diary.services.*;
 
 
 import java.security.Principal;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -150,14 +151,13 @@ public class UserController {
         entry.setDishWeight(weightDish);
         DIshHandBook dIshHandBookEntry = dishHandBookService.findById(dish);
         entry.setDish(dIshHandBookEntry);
-        entry.setCalories((weightDish / 100) * dIshHandBookEntry.getEnergyValue());
-        entry.setProteins((weightDish / 100) * dIshHandBookEntry.getProteins());
-        entry.setFats((weightDish / 100) * dIshHandBookEntry.getFats());
-        entry.setCarbohydrates((weightDish / 100) * dIshHandBookEntry.getCarbohydrates());
+        entry.setCalories((float) (Math.round((weightDish / 100) * dIshHandBookEntry.getEnergyValue() * 100.0) / 100.0));
+        entry.setProteins((float) (Math.round((weightDish / 100) * dIshHandBookEntry.getProteins() * 100.0) / 100.0));
+        entry.setFats((float) (Math.round((weightDish / 100) * dIshHandBookEntry.getFats() * 100.0) / 100.0));
+        entry.setCarbohydrates((float) (Math.round((weightDish / 100) * dIshHandBookEntry.getCarbohydrates() * 100.0) / 100.0));
         User user = userService.getUserByUserName(principal.getName());
         entry.setDiary(user.getHealthDiary());
         nutritionService.add(entry);
-
         return "redirect:/user/nutrition";
     }
 
