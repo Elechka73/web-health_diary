@@ -2,13 +2,10 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<style>
-    body{
-        background-image: url(https://webuploads.hb.ru-msk.vkcs.cloud/translucent-image%20%281%29.png); background-repeat: initial; background-attachment: scroll; background-position: top; background-size: 150px 150px;}
-</style>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
 
     <!--    <link rel="icon" type="image/png" th:href="@{/icon.ico}"/> найти иконку и закинуть в папку static-->
@@ -20,10 +17,10 @@
         }
     </style>
 </head>
-<body>
+<body class="body">
 <div class="fluid-container" th:fragment="navi(activeTab)">
     <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #319D00;">
-        <a class="navbar-brand" th:href="@{/}">Дневник здоровья</a>
+        <a  style="margin-left: 20px" class="navbar-brand" th:href="@{/}">Дневник здоровья</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

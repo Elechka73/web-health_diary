@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
-<style>
-    body{
-        background-image: url(https://webuploads.hb.ru-msk.vkcs.cloud/translucent-image%20%281%29.png); background-repeat: initial; background-attachment: scroll; background-position: top; background-size: 150px 150px;}
-</style>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <!--    <link rel="icon" type="image/png" th:href="@{/icon.ico}"/> найти иконку и закинуть в папку static-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
-<body style="text-align: center">
+<body class="body"> style="text-align: center">
 <div th:replace="~{navigation :: navi('Home')}"></div>
 <h2 th:if="${#authorization.expression('isAnonymous()')}">Добро пожаловать в приложение здорового образа жизни! <br>Пожалуйста, войдите в свою учётную запись.
 </h2>
