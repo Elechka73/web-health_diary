@@ -3,3 +3,24 @@
 .th, td {
     border: 1px solid darkgreen;
 }
+.management-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.filter-form {
+    width: 30%;
+    height: 500px;
+    border: 1px  solid darkgreen;
+    border-collapse: collapse;
+    background: linear-gradient(45deg, #CAE4D8, #C5DDE8);
+    padding: 10px;
+    margin-right: 20px;
+}
+
+.table-container {
+    flex: 1;
+    overflow: auto;
+    /*padding: 10px;*/
+    height: 500px;
+}

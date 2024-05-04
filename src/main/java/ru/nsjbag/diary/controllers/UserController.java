@@ -57,18 +57,7 @@ public class UserController {
 
         return "pressure";
     }
-    @GetMapping("")
-    public String mainPage(Principal principal) {
-        if (principal != null) {
-            if (userService.getAuthorityByusername(principal.getName()).equals("ROLE_USER")) {
-                return "redirect:/user/main";
-            }
-            if (userService.getAuthorityByusername(principal.getName()).equals("ROLE_MED")) {
-                return "redirect:/med/main";
-            }
-        }
-        return "mainUnauthorized";
-    }
+
 
 
     @GetMapping("/user/main")

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Главная</title>
+  <link rel="stylesheet" href="/style.css" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <!--    <link rel="icon" type="image/png" th:href="@{/icon.ico}"/> найти иконку и закинуть в папку static-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body class="body">
+<div th:replace="~{navigation :: navi('Home')}"></div>
+
+<div id="Container" class="management-container">
+  <div class="filter-form">
+    <h3>Фильтр</h3>
+    <form th:action="@{/med/users/filter}" method="get">
+      <div class="form-group">
+        <label for="lastName">Фамилия:</label>
+        <input type="text"  class="form-control" id="lastName" name="lastName" placeholder="Фамилия" th:value="${lastName}">
+      </div>
+      <div class="form-group">
+        <label for="firstName">Имя:</label>
+        <input type="text"  class="form-control" id="firstName" name="firstName" placeholder="Имя" th:value="${firstName}">
+      </div>
+      <div class="form-group">
+        <label for="dob">Дата рождения:</label>
+        <input type="date" class="form-control" id="dob" name="dob" placeholder="Дата рождения" th:value="${dob}"  min="1924-01-01">
+      </div>
+      <div class="form-group">
+        <label for="insurance">Номер полиса:</label>
+        <input type="text"  class="form-control" id="insurance" name="insurance" placeholder="Полис ОМС" th:value="${insurance}">
+      </div>
+      <button type="submit" class="btn btn-primary">Найти</button>
+    </form>
+    <form th:action="@{/med/main}">
+      <button style='margin-top: 10px' type="submit" class="btn btn-danger">Сбросить</button>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Фамилия</th>
+        <th>Имя</th>
+        <th>Дата рождения</th>
+        <th>Номер полиса</th>
+        <th>Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${users}">
+        <td th:text="${user.lastname}"></td>
+        <td th:text="${user.firstname}"></td>
+        <td th:text="${user.dateOfBirth}"></td>
+        <td th:text="${user.insuranceNumber}"></td>
+        <td>
+          <a th:href="@{'/med/user/info/' + ${user.username}}" th:text="Подробнее" class="text-info"></a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('dob').setAttribute('max', today);
+</script>
+</body>
+</html>

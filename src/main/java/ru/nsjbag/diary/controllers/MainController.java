@@ -5,9 +5,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.nsjbag.diary.services.UserService;
+
+import java.security.Principal;
 
 @Controller
 public class MainController {
@@ -28,6 +31,18 @@ public class MainController {
             }
         }
         model.addAttribute("error", true);
+        return "mainUnauthorized";
+    }
+    @GetMapping("")
+    public String mainPage(Principal principal) {
+        if (principal != null) {
+            if (userService.getAuthorityByusername(principal.getName()).equals("ROLE_USER")) {
+                return "redirect:/user/main";
+            }
+            if (userService.getAuthorityByusername(principal.getName()).equals("ROLE_MED")) {
+                return "redirect:/med/main";
+            }
+        }
         return "mainUnauthorized";
     }
 
