@@ -80,7 +80,7 @@
 </div>
 <div> <!--    общая статистика-->
     <p th:text="'Активность сегодня: ' + ${dayHourDuration} + ' ч.  ' + ${dayMinuteDuration} + ' мин.'"></p>
-    <p th:text="'Последняя запись о давлении: ' + ${lastBloodPressure.systolic} + ' / ' + ${lastBloodPressure.diastolic} + ' ' + ${#temporals.format(lastBloodPressure.dateOfEntry, 'HH:mm')} "></p>
+    <p th:text="'Последняя запись о давлении: ' + ${lastBloodPressure.systolic} + ' / ' + ${lastBloodPressure.diastolic} + ' ' +(${lastBloodPressure.dateOfEntry != null ? ' ' + #temporals.format(lastBloodPressure.dateOfEntry, 'HH:mm') : '-:-'})  "></p>
     <p th:text="'Полученные калории: ' + ${todayReceivedCalories}"></p>
     <p th:text="'Потраченные калории: ' + ${todaySpentCalories}"></p>
 </div>

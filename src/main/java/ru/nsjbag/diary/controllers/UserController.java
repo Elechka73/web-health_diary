@@ -16,6 +16,7 @@ import ru.nsjbag.diary.services.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 
 @Controller
@@ -93,7 +94,8 @@ public class UserController {
         int dayDuration = activityService.getDayDuration(principal.getName());
         model.addAttribute("dayHourDuration", dayDuration/60);
         model.addAttribute("dayMinuteDuration", dayDuration%60);
-        model.addAttribute("lastBloodPressure",bloodPressureService.getLastBloodPressure(principal.getName()));
+        BloodPressureEntry bpEntry = bloodPressureService.getLastBloodPressure(principal.getName());
+        model.addAttribute("lastBloodPressure", Objects.requireNonNullElseGet(bpEntry, BloodPressureEntry::new));
 
         float todayReceivedCalories = nutritionService.getReceivedCalories(principal.getName());
         model.addAttribute("todayReceivedCalories", todayReceivedCalories);
