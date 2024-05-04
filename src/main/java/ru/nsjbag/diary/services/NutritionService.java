@@ -7,6 +7,12 @@ import org.springframework.stereotype.Service;
 import ru.nsjbag.diary.entities.NutritionEntry;
 import ru.nsjbag.diary.repositories.NutritionRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+
 @Service
 public class NutritionService {
 
@@ -25,4 +31,16 @@ public class NutritionService {
     public void delete(NutritionEntry entry) {
         nutritionRepository.delete(entry);
     }
+    public float getReceivedCalories(String username) {
+        List<NutritionEntry> nutritionEntries = nutritionRepository.getNutritionEntriesByDiary_User_Username(username);
+        float calories = 0;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        for (NutritionEntry nutritionEntry : nutritionEntries) {
+            String formattedDate = nutritionEntry.getTimeOfNutrition().format(formatter);
+            String today = LocalDate.now().format(formatter);
+            if (formattedDate.equals(today)) calories += nutritionEntry.getCalories();
+        }
+        return calories;
+    }
+
 }

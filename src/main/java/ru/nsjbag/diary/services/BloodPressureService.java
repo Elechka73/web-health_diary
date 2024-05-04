@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import ru.nsjbag.diary.entities.BloodPressureEntry;
 import ru.nsjbag.diary.repositories.BloodPressureRepository;
 
+import java.time.LocalDateTime;
+
 
 @Service
 public class BloodPressureService {
@@ -25,6 +27,9 @@ public class BloodPressureService {
     }
     public void delete(BloodPressureEntry entry) {
         repository.delete(entry);
+    }
+    public BloodPressureEntry getLastBloodPressure(String username) {
+        return repository.getFirstBloodPressureEntryByDiary_User_UsernameOrderByDateOfEntryDesc(username);
     }
 
 

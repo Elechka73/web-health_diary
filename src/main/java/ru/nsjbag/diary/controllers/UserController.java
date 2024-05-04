@@ -4,6 +4,7 @@ package ru.nsjbag.diary.controllers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,6 @@ import ru.nsjbag.diary.services.*;
 
 
 import java.security.Principal;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -55,6 +55,51 @@ public class UserController {
         model.addAttribute("totalPages", bloodPressureEntries.getTotalPages());
 
         return "pressure";
+    }
+    @GetMapping("")
+    public String mainPage(Principal principal) {
+        if (principal != null) {
+            if (userService.getAuthorityByusername(principal.getName()).equals("ROLE_USER")) {
+                return "redirect:/user/main";
+            }
+            if (userService.getAuthorityByusername(principal.getName()).equals("ROLE_MED")) {
+                return "redirect:/med/main";
+            }
+        }
+        return "mainUnauthorized";
+    }
+
+
+    @GetMapping("/user/main")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public String mainPageUser(Model model, Principal principal) {
+        Pageable pageable = PageRequest.of(0, 5);
+
+        Page<BloodPressureEntry> bloodPressureEntries = bloodPressureService.getBloodPressure(principal.getName(), pageable);
+        model.addAttribute("entriesPressure", bloodPressureEntries.getContent());
+        model.addAttribute("entryPressure", new BloodPressureEntry());
+
+        Page<ActivityEntry> activityEntries = activityService.getAllActivities(principal.getName(), pageable);
+        model.addAttribute("entriesActivity", activityEntries.getContent());
+        model.addAttribute("activity", new ActivityHandBook());
+        model.addAttribute("entry", new ActivityEntry());
+
+        Page<NutritionEntry> nutritionEntries = nutritionService.getAllNutritionEntries(principal.getName(), pageable);
+        model.addAttribute("entriesNutrition", nutritionEntries.getContent());
+        model.addAttribute("entryNutrition", new NutritionEntry());
+        model.addAttribute("dish", new DIshHandBook());
+        model.addAttribute("dishes", dishHandBookService.getAllDish());
+
+        int dayDuration = activityService.getDayDuration(principal.getName());
+        model.addAttribute("dayHourDuration", dayDuration/60);
+        model.addAttribute("dayMinuteDuration", dayDuration%60);
+        model.addAttribute("lastBloodPressure",bloodPressureService.getLastBloodPressure(principal.getName()));
+
+        float todayReceivedCalories = nutritionService.getReceivedCalories(principal.getName());
+        model.addAttribute("todayReceivedCalories", todayReceivedCalories);
+        float todaySpentCalories = activityService.getDaySpendCalories(principal.getName());
+        model.addAttribute("todaySpentCalories", todaySpentCalories);
+        return "mainUser";
     }
 
     @PostMapping("/user/pressure/add")
