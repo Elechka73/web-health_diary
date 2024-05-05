@@ -14,5 +14,5 @@ public interface ActivityRepository extends JpaRepository<ActivityEntry, Integer
     Page<ActivityEntry> getActivityEntriesByDiary_User_Username_OrderByDateOfActivityDesc(String username, Pageable pageable);
 
     List<ActivityEntry> getTodayActivityEntriesByDiary_User_UsernameAndDateOfActivity(String username, Date dateOfActivity);
-
+    List<ActivityEntry> getActivityEntriesByDiary_User_Username_OrderByDateOfActivityDesc(String username);
 }

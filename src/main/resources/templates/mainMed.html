@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <title>Главная</title>
@@ -10,7 +10,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body class="body">
-<div th:replace="~{navigation :: navi('Home')}"></div>
+<div th:replace="~{navigation :: navi('Find')}"></div>
 
 <div id="Container" class="management-container">
   <div class="filter-form">
@@ -54,10 +54,10 @@
       <tr th:each="user : ${users}">
         <td th:text="${user.lastname}"></td>
         <td th:text="${user.firstname}"></td>
-        <td th:text="${user.dateOfBirth}"></td>
+        <td th:text="${#strings.replace(#strings.substring(user.dateOfBirth,8,10) + '-' + #strings.substring(user.dateOfBirth,5,7) + '-' + #strings.substring(user.dateOfBirth,0,4), 'null', '')}"></td>
         <td th:text="${user.insuranceNumber}"></td>
         <td>
-          <a th:href="@{'/med/user/info/' + ${user.username}}" th:text="Подробнее" class="text-info"></a>
+          <a th:href="@{'/med/user/info/' + ${user.username}}" th:text="Подробнее" class="text-info" onclick="saveAndRedirect(event)"></a>
         </td>
       </tr>
       </tbody>
@@ -67,6 +67,12 @@
 <script>
   var today = new Date().toISOString().split('T')[0];
   document.getElementById('dob').setAttribute('max', today);
+  function saveAndRedirect(event) {
+    event.preventDefault();
+    const currentUrl = window.location.href;
+    localStorage.setItem('previousUrl', currentUrl);
+    window.location.href = event.target.href;
+  }
 </script>
 </body>
 </html>

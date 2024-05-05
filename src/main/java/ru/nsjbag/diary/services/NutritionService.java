@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import ru.nsjbag.diary.entities.NutritionEntry;
 import ru.nsjbag.diary.repositories.NutritionRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +24,32 @@ public class NutritionService {
     public Page<NutritionEntry> getAllNutritionEntries(String username, Pageable pageable) {
         return nutritionRepository.getNutritionEntriesByDiary_User_Username_OrderByTimeOfNutritionDesc(username, pageable);
     }
+    public List<NutritionEntry> getAllNutritionEntries(String username) {
+        return nutritionRepository.getNutritionEntriesByDiary_User_Username_OrderByTimeOfNutritionDesc(username);
+    }
+    public List<NutritionEntry> getAllNutritionEntries(String username, String date) {
+        List<NutritionEntry> temp = nutritionRepository.getNutritionEntriesByDiary_User_Username_OrderByTimeOfNutritionDesc(username);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        List<NutritionEntry> result = new ArrayList<>();
+        Date dateE;
+        try {
+            dateE = formatter.parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        for (NutritionEntry entry : temp) {
+            Date d;
+            try {
+                d = formatter.parse(String.valueOf(entry.getTimeOfNutrition()));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            if(d.equals(dateE)) {
+                result.add(entry);
+            }
+        }
+        return result;
+    }
     public void add(NutritionEntry entry) {
         nutritionRepository.save(entry);
     }
@@ -32,7 +60,7 @@ public class NutritionService {
         nutritionRepository.delete(entry);
     }
     public float getReceivedCalories(String username) {
-        List<NutritionEntry> nutritionEntries = nutritionRepository.getNutritionEntriesByDiary_User_Username(username);
+        List<NutritionEntry> nutritionEntries = nutritionRepository.getNutritionEntriesByDiary_User_Username_OrderByTimeOfNutritionDesc(username);
         float calories = 0;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         for (NutritionEntry nutritionEntry : nutritionEntries) {

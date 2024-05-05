@@ -31,7 +31,7 @@
         <td th:text="${entry.activity.activityName}"></td>
         <td th:text="${entry.durationInMinutes}"></td>
         <td th:text="${entry.calories}"></td>
-        <td th:text="${entry.dateOfActivity}"></td>
+        <td th:text="${#strings.replace(#strings.substring(entry.dateOfActivity,8,10) + '-' + #strings.substring(entry.dateOfActivity,5,7) + '-' + #strings.substring(entry.dateOfActivity,0,4), 'null', '')}"></td>
         <td>
             <a th:href="@{'/user/activity/delete/' + ${entry.id}}" th:text="Удалить" class="text-danger"></a>
         </td>

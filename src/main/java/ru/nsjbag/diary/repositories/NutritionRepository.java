@@ -7,13 +7,10 @@ import ru.nsjbag.diary.entities.NutritionEntry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface NutritionRepository extends JpaRepository<NutritionEntry, Integer> {
     Page<NutritionEntry> getNutritionEntriesByDiary_User_Username_OrderByTimeOfNutritionDesc(String username, Pageable pageable);
-    List<NutritionEntry> getNutritionEntriesByDiary_User_Username(String username);
-
+    List<NutritionEntry> getNutritionEntriesByDiary_User_Username_OrderByTimeOfNutritionDesc(String username);
 }
