@@ -5,85 +5,87 @@
     <title>Главная</title>
     <link rel="stylesheet" href="/style.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-        <link rel="icon" type="image/png" th:href="@{/icon.ico}"/>
+    <link rel="icon" type="image/png" th:href="@{/icon.ico}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body class="body" style="top: -30px ">
 <div th:replace="~{navigation :: navi('Home')}"></div>
 
-<div th:if="${#authorization.expression('hasRole(''USER'')')}">
-    <table class="table" style="width: 45%">
-        <thead>
-        <tr>
-            <th class="table-bordered" style="border-color: darkgreen">Показатели давления</th>
-            <th class="table-bordered" style="border-color: darkgreen">Время измерения</th>
-            <th class="table-bordered" style="border-color: darkgreen">Дата измерения</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="entryPressure : ${entriesPressure}">
-            <td th:text="${entryPressure.systolic} + ' / ' + ${entryPressure.diastolic}"></td>
-            <td th:text="${#temporals.format(entryPressure.dateOfEntry, 'HH:mm')}"></td>
-            <td th:text="${#temporals.format(entryPressure.dateOfEntry, 'dd-MM-yyyy')}"></td>
-        </tr>
-        </tbody>
-    </table>
+<div style="display: flex">
+    <div style="width: 45%">
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="table-bordered" style="border-color: darkgreen">Показатели давления</th>
+                <th class="table-bordered" style="border-color: darkgreen">Время измерения</th>
+                <th class="table-bordered" style="border-color: darkgreen">Дата измерения</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entryPressure : ${entriesPressure}">
+                <td th:text="${entryPressure.systolic} + ' / ' + ${entryPressure.diastolic}"></td>
+                <td th:text="${#temporals.format(entryPressure.dateOfEntry, 'HH:mm')}"></td>
+                <td th:text="${#temporals.format(entryPressure.dateOfEntry, 'dd-MM-yyyy')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="width: 55%; margin-left: 35px">
+        <table class="table">
+            <thead>
+            <tr style="">
+                <th class="table-bordered" style="border-color: darkgreen">Название тренировки</th>
+                <th class="table-bordered" style="border-color: darkgreen">Длительность тренировки</th>
+                <th class="table-bordered" style="border-color: darkgreen">Потраченные калории</th>
+                <th class="table-bordered" style="border-color: darkgreen">Дата активности</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${entriesActivity}">
+                <td th:text="${entry.activity.activityName}"></td>
+                <td th:text="${entry.durationInMinutes}"></td>
+                <td th:text="${entry.calories}"></td>
+                <td th:text="${#strings.replace(#strings.substring(entry.dateOfActivity,8,10) + '-' + #strings.substring(entry.dateOfActivity,5,7) + '-' + #strings.substring(entry.dateOfActivity,0,4), 'null', '')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<div th:if="${#authorization.expression('hasRole(''USER'')')}" >
-    <table class="table" style="width: 53%; margin-left: 47%; margin-top: -310px">
-        <thead>
-        <tr style="">
-            <th class="table-bordered" style="border-color: darkgreen">Название тренировки</th>
-            <th class="table-bordered" style="border-color: darkgreen">Длительность тренировки</th>
-            <th class="table-bordered" style="border-color: darkgreen">Потраченные калории</th>
-            <th class="table-bordered" style="border-color: darkgreen">Дата активности</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="entry : ${entriesActivity}">
-            <td th:text="${entry.activity.activityName}"></td>
-            <td th:text="${entry.durationInMinutes}"></td>
-            <td th:text="${entry.calories}"></td>
-            <td th:text="${#strings.replace(#strings.substring(entry.dateOfActivity,8,10) + '-' + #strings.substring(entry.dateOfActivity,5,7) + '-' + #strings.substring(entry.dateOfActivity,0,4), 'null', '')}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div th:if="${#authorization.expression('hasRole(''USER'')')}" >
-    <table class="table">
-        <thead>
-        <tr>
-            <th class="table-bordered" style="border-color: darkgreen">Название блюда</th>
-            <th class="table-bordered" style="border-color: darkgreen">Масса блюда(граммы)</th>
-            <th class="table-bordered" style="border-color: darkgreen">Полученные калории</th>
-            <th class="table-bordered" style="border-color: darkgreen">Белки</th>
-            <th class="table-bordered" style="border-color: darkgreen">Жиры</th>
-            <th class="table-bordered" style="border-color: darkgreen">Углеводы</th>
-            <th class="table-bordered" style="border-color: darkgreen">Время</th>
-            <th class="table-bordered" style="border-color: darkgreen">Дата</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="entryNutrition : ${entriesNutrition}">
-            <td th:text="${entryNutrition.dish.dishName}"></td>
-            <td th:text="${entryNutrition.dishWeight}"></td>
-            <td th:text="${entryNutrition.calories}"></td>
-            <td th:text="${entryNutrition.proteins}"></td>
-            <td th:text="${entryNutrition.fats}"></td>
-            <td th:text="${entryNutrition.carbohydrates}"></td>
-            <td th:text="${#temporals.format(entryNutrition.timeOfNutrition, 'HH:mm')}"></td>
-            <td th:text="${#temporals.format(entryNutrition.timeOfNutrition, 'dd-MM-yyyy')}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<div> <!--    общая статистика-->
-    <p th:text="'Активность сегодня: ' + ${dayHourDuration} + ' ч.  ' + ${dayMinuteDuration} + ' мин.'"></p>
-    <p th:text="'Последняя запись о давлении: ' + ${lastBloodPressure.systolic} + ' / ' + ${lastBloodPressure.diastolic} + ' ' +(${lastBloodPressure.dateOfEntry != null ? ' ' + #temporals.format(lastBloodPressure.dateOfEntry, 'HH:mm') : '-:-'})  "></p>
-    <p th:text="'Полученные калории: ' + ${todayReceivedCalories}"></p>
-    <p th:text="'Потраченные калории: ' + ${todaySpentCalories}"></p>
-</div>
+    <div th:if="${#authorization.expression('hasRole(''USER'')')}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="table-bordered" style="border-color: darkgreen">Название блюда</th>
+                <th class="table-bordered" style="border-color: darkgreen">Масса блюда(граммы)</th>
+                <th class="table-bordered" style="border-color: darkgreen">Полученные калории</th>
+                <th class="table-bordered" style="border-color: darkgreen">Белки</th>
+                <th class="table-bordered" style="border-color: darkgreen">Жиры</th>
+                <th class="table-bordered" style="border-color: darkgreen">Углеводы</th>
+                <th class="table-bordered" style="border-color: darkgreen">Время</th>
+                <th class="table-bordered" style="border-color: darkgreen">Дата</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entryNutrition : ${entriesNutrition}">
+                <td th:text="${entryNutrition.dish.dishName}"></td>
+                <td th:text="${entryNutrition.dishWeight}"></td>
+                <td th:text="${entryNutrition.calories}"></td>
+                <td th:text="${entryNutrition.proteins}"></td>
+                <td th:text="${entryNutrition.fats}"></td>
+                <td th:text="${entryNutrition.carbohydrates}"></td>
+                <td th:text="${#temporals.format(entryNutrition.timeOfNutrition, 'HH:mm')}"></td>
+                <td th:text="${#temporals.format(entryNutrition.timeOfNutrition, 'dd-MM-yyyy')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div> <!--    общая статистика-->
+        <p th:text="'Активность сегодня: ' + ${dayHourDuration} + ' ч.  ' + ${dayMinuteDuration} + ' мин.'"></p>
+        <p th:text="'Последняя запись о давлении: ' + ${lastBloodPressure.systolic} + ' / ' + ${lastBloodPressure.diastolic} + ' ' +(${lastBloodPressure.dateOfEntry != null ? ' ' + #temporals.format(lastBloodPressure.dateOfEntry, 'HH:mm') : '-:-'})  "></p>
+        <p th:text="'Полученные калории: ' + ${todayReceivedCalories}"></p>
+        <p th:text="'Потраченные калории: ' + ${todaySpentCalories}"></p>
+    </div>
 
 </body>
 </html>
