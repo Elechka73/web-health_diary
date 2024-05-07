@@ -5,7 +5,7 @@
     <title>Информация о пользователе</title>
     <link rel="stylesheet" href="/style.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <!--    <link rel="icon" type="image/png" th:href="@{/icon.ico}"/> найти иконку и закинуть в папку static-->
+        <link rel="icon" type="image/png" th:href="@{/icon.ico}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
@@ -35,16 +35,16 @@
         </form>
         <a th:href="@{'/med/user/info/' + ${username}}" style='margin-top: 10px' type="submit"
            class="btn btn-danger">Сбросить</a>
-        <button type="button" id="backButton" class="btn btn-secondary btn-back">Назад</button>
+        <button type="button" id="backButton" style="margin-bottom: -10px" class="btn btn-secondary btn-back">Назад</button>
     </div>
 
     <div class="table-container">
         <table class="table" data-type="pressure" style="display: none">
             <thead>
             <tr>
-                <th>Показатели давления</th>
-                <th>Время измерения</th>
-                <th>Дата измерения</th>
+                <th class="table-bordered" style="border-color: darkgreen">Показатели давления</th>
+                <th class="table-bordered" style="border-color: darkgreen">Время измерения</th>
+                <th class="table-bordered" style="border-color: darkgreen">Дата измерения</th>
             </tr>
             </thead>
             <tbody>
@@ -58,14 +58,14 @@
         <table class="table" data-type="nutrition" style="display: none">
             <thead>
             <tr>
-                <th>Название блюда</th>
-                <th>Масса блюда(граммы)</th>
-                <th>Полученные калории</th>
-                <th>Белки</th>
-                <th>Жиры</th>
-                <th>Углеводы</th>
-                <th>Время</th>
-                <th>Дата</th>
+                <th class="table-bordered" style="border-color: darkgreen">Название блюда</th>
+                <th class="table-bordered" style="border-color: darkgreen">Масса блюда(граммы)</th>
+                <th class="table-bordered" style="border-color: darkgreen">Полученные калории</th>
+                <th class="table-bordered" style="border-color: darkgreen">Белки</th>
+                <th class="table-bordered" style="border-color: darkgreen">Жиры</th>
+                <th class="table-bordered" style="border-color: darkgreen">Углеводы</th>
+                <th class="table-bordered" style="border-color: darkgreen">Время</th>
+                <th class="table-bordered" style="border-color: darkgreen">Дата</th>
             </tr>
             </thead>
             <tbody>
@@ -84,10 +84,10 @@
         <table class="table" data-type="activity" style="display: none">
             <thead>
             <tr style="">
-                <th>Название тренировки</th>
-                <th>Длительность тренировки</th>
-                <th>Потраченные калории</th>
-                <th>Дата активности</th>
+                <th class="table-bordered" style="border-color: darkgreen">Название тренировки</th>
+                <th class="table-bordered" style="border-color: darkgreen">Длительность тренировки</th>
+                <th class="table-bordered" style="border-color: darkgreen">Потраченные калории</th>
+                <th class="table-bordered" style="border-color: darkgreen">Дата активности</th>
             </tr>
             </thead>
             <tbody>
