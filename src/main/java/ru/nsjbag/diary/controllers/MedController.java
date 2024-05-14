@@ -71,9 +71,6 @@ public class MedController {
         model.addAttribute("entryActivity", new ActivityEntry());
         model.addAttribute("activity", new ActivityHandBook());
 
-//        model.addAttribute("type", "pressure");
-//        model.addAttribute("type", "nutrition");
-//        model.addAttribute("type", "activity");
 
         return "userInfoPage";
     }

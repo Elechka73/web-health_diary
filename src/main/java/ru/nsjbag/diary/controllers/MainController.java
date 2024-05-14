@@ -45,6 +45,4 @@ public class MainController {
         }
         return "mainUnauthorized";
     }
-
-
 }

@@ -17,19 +17,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User getUserById(Integer id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
     public User getUserByUserName(String username) {
         User user = userRepository.findByusername(username);
         if (user == null) throw new UsernameNotFoundException(username);
         return user;
     }
-    public String getRealNameByUsername(String username) {
-        User user = userRepository.findByusername(username);
-        return (user != null) ? user.getFirstname() : "";
-    }
+
     public void encodePassword(User user) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());

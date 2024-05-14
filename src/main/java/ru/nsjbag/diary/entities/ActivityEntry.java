@@ -29,6 +29,4 @@ public class ActivityEntry {
     @ManyToOne
     @JoinColumn(name = "diary_id")
     private HealthDiary diary;
-
-
 }
